@@ -29,6 +29,7 @@ export default class DropdownMenu extends PureComponent {
     leaveTimeout: PropTypes.number,
     closeOnInsideClick: PropTypes.bool,
     closeOnOutsideClick: PropTypes.bool,
+    maxHeight: PropTypes.number,
   };
 
   static defaultProps = {
@@ -45,6 +46,7 @@ export default class DropdownMenu extends PureComponent {
     leaveTimeout: 150,
     closeOnInsideClick: true,
     closeOnOutsideClick: true,
+    maxHeight: null,
   };
 
   static MENU_SIZES = MENU_SIZES;
@@ -128,7 +130,7 @@ export default class DropdownMenu extends PureComponent {
 
 
   render() {
-    const { menuAlign, align, inverse, size, className } = this.props;
+    const { menuAlign, align, inverse, size, className, maxHeight } = this.props;
 
     const menuClassName = classnames(
       'dd-menu',
@@ -140,7 +142,7 @@ export default class DropdownMenu extends PureComponent {
 
     const { textAlign, upwards, animAlign, animate, enterTimeout, leaveTimeout } = this.props;
 
-    const listClassName = 'dd-items-' + (textAlign || align);
+    const listClassName = classnames(`dd-items-${textAlign || align}`, maxHeight ? 'dd-items-max-height': null);
     const transitionProps = {
       transitionName: 'grow-from-' + (upwards ? 'up-' : '') + (animAlign || align),
       component: 'div',
@@ -157,7 +159,7 @@ export default class DropdownMenu extends PureComponent {
         {this.props.toggle}
         <CSSTransitionGroup {...transitionProps}>
           {this.props.isOpen &&
-          <ul key="items" className={listClassName}>{this.props.children}</ul>
+          <ul key="items" className={listClassName} style={maxHeight && {maxHeight: `${maxHeight}px`}}>{this.props.children}</ul>
           }
         </CSSTransitionGroup>
       </div>

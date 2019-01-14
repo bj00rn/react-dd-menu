@@ -136,7 +136,8 @@ var DropdownMenu = function (_PureComponent) {
           align = _props.align,
           inverse = _props.inverse,
           size = _props.size,
-          className = _props.className;
+          className = _props.className,
+          maxHeight = _props.maxHeight;
 
 
       var menuClassName = (0, _classnames2.default)('dd-menu', 'dd-menu-' + (menuAlign || align), { 'dd-menu-inverse': inverse }, className, size ? 'dd-menu-' + size : null);
@@ -150,7 +151,7 @@ var DropdownMenu = function (_PureComponent) {
           leaveTimeout = _props2.leaveTimeout;
 
 
-      var listClassName = 'dd-items-' + (textAlign || align);
+      var listClassName = (0, _classnames2.default)('dd-items-' + (textAlign || align), maxHeight ? 'dd-items-max-height' : null);
       var transitionProps = {
         transitionName: 'grow-from-' + (upwards ? 'up-' : '') + (animAlign || align),
         component: 'div',
@@ -171,7 +172,7 @@ var DropdownMenu = function (_PureComponent) {
           transitionProps,
           this.props.isOpen && _react2.default.createElement(
             'ul',
-            { key: 'items', className: listClassName },
+            { key: 'items', className: listClassName, style: maxHeight && { maxHeight: maxHeight + 'px' } },
             this.props.children
           )
         )
@@ -199,7 +200,8 @@ DropdownMenu.propTypes = {
   enterTimeout: _propTypes2.default.number,
   leaveTimeout: _propTypes2.default.number,
   closeOnInsideClick: _propTypes2.default.bool,
-  closeOnOutsideClick: _propTypes2.default.bool
+  closeOnOutsideClick: _propTypes2.default.bool,
+  maxHeight: _propTypes2.default.number
 };
 DropdownMenu.defaultProps = {
   inverse: false,

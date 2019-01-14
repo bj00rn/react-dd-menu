@@ -34,7 +34,7 @@ $ npm install -S react-dd-menu \
     align: PropTypes.oneOf(ALIGNMENTS),
     animAlign: PropTypes.oneOf(ALIGNMENTS),
     textAlign: PropTypes.oneOf(ALIGNMENTS),
-    menuAlign: PropTypes.oneOf(ALIGNMENTS),
+    menuAlign: PropTypes.oneOf(A
     className: PropTypes.string,
     size: PropTypes.oneOf(MENU_SIZES),
     upwards: PropTypes.bool,
@@ -43,6 +43,7 @@ $ npm install -S react-dd-menu \
     leaveTimeout: PropTypes.number,
     closeOnInsideClick: PropTypes.bool,
     closeOnOutsideClick: PropTypes.bool,
+    maxHeight: PropTypes.number,
   }
 
   static defaultProps = {
@@ -78,6 +79,7 @@ $ npm install -S react-dd-menu \
 * `leaveTimeout` - the amount of time in ms to end the CSSTransitionGroup. Defaults to `150`
 * `closeOnInsideClick`  - a boolean if the menu should close when you click inside the menu. Defaults to `true`
 * `closeOnOutsideClick` - a boolean if the menu should close when you click elsewhere on the page. Defaults to `true`
+* `maxHeight` - a number if the menu should have this height (in pixels) as max-height css property, Defaults to null
 
 ##### NestedDropdownMenu
 
