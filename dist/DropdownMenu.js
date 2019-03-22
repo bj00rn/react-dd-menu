@@ -113,31 +113,44 @@ var DropdownMenu = function (_PureComponent) {
       return _this._portalRef = ref;
     }, _this._setDropdownWidth = function (width) {
       return _this.setState({ dropdownWidth: width });
+    }, _this._setPortalPositionState = function (_ref2) {
+      var portalNode = _ref2.portalNode,
+          fixed = _ref2.fixed,
+          xOffset = _ref2.xOffset;
+
+      var wrapperNode = _this._wrapperRef;
+
+      var _wrapperNode$getBound = wrapperNode.getBoundingClientRect(),
+          top = _wrapperNode$getBound.top,
+          left = _wrapperNode$getBound.left,
+          right = _wrapperNode$getBound.right,
+          height = _wrapperNode$getBound.height,
+          width = _wrapperNode$getBound.width;
+
+      var portalNodeRect = portalNode && portalNode.getBoundingClientRect();
+      _this.setState({
+        portalWidth: portalNodeRect ? portalNodeRect.width : window.outerWidth,
+        dropdownTopOffset: (portalNodeRect && !fixed ? top - portalNodeRect.top : top) + (portalNode ? fixed ? 0 : portalNode.scrollTop : 0),
+        dropdownLeftOffset: (portalNodeRect ? left - portalNodeRect.left : left) + xOffset,
+        dropdownRightOffset: portalNodeRect ? portalNodeRect.right - right : right,
+        dropdownToggleComponentHeight: height,
+        dropdownToggleComponentWidth: width
+      });
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(DropdownMenu, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.props.isOpen) {
+        this._setPortalPositionState(this.props);
+      }
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (!this.props.isOpen && nextProps.isOpen) {
-        var wrapperNode = this._wrapperRef;
-
-        var _wrapperNode$getBound = wrapperNode.getBoundingClientRect(),
-            top = _wrapperNode$getBound.top,
-            left = _wrapperNode$getBound.left,
-            right = _wrapperNode$getBound.right,
-            height = _wrapperNode$getBound.height,
-            width = _wrapperNode$getBound.width;
-
-        var portalNodeRect = nextProps.portalNode && nextProps.portalNode.getBoundingClientRect();
-        this.setState({
-          portalWidth: portalNodeRect ? portalNodeRect.width : window.outerWidth,
-          dropdownTopOffset: (portalNodeRect && !nextProps.fixed ? top - portalNodeRect.top : top) + (nextProps.portalNode ? nextProps.fixed ? 0 : nextProps.portalNode.scrollTop : 0),
-          dropdownLeftOffset: (portalNodeRect ? left - portalNodeRect.left : left) + nextProps.xOffset,
-          dropdownRightOffset: portalNodeRect ? portalNodeRect.right - right : right,
-          dropdownToggleComponentHeight: height,
-          dropdownToggleComponentWidth: width
-        });
+        this._setPortalPositionState(nextProps);
       }
     }
   }, {
@@ -291,7 +304,7 @@ var ChildWrapper = function (_PureComponent2) {
   _inherits(ChildWrapper, _PureComponent2);
 
   function ChildWrapper() {
-    var _ref2;
+    var _ref3;
 
     var _temp2, _this2, _ret2;
 
@@ -301,7 +314,7 @@ var ChildWrapper = function (_PureComponent2) {
       args[_key2] = arguments[_key2];
     }
 
-    return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_ref2 = ChildWrapper.__proto__ || Object.getPrototypeOf(ChildWrapper)).call.apply(_ref2, [this].concat(args))), _this2), _this2._regRef = function (ref) {
+    return _ret2 = (_temp2 = (_this2 = _possibleConstructorReturn(this, (_ref3 = ChildWrapper.__proto__ || Object.getPrototypeOf(ChildWrapper)).call.apply(_ref3, [this].concat(args))), _this2), _this2._regRef = function (ref) {
       return _this2._ref = ref;
     }, _temp2), _possibleConstructorReturn(_this2, _ret2);
   }

@@ -70,19 +70,15 @@ export default class DropdownMenu extends PureComponent {
   static MENU_SIZES = MENU_SIZES;
   static ALIGNMENTS = ALIGNMENTS;
 
+  componentDidMount() {
+    if(this.props.isOpen) {
+      this._setPortalPositionState(this.props);
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (!this.props.isOpen && nextProps.isOpen) {
-      const wrapperNode = this._wrapperRef;
-      const {top, left, right, height, width} = wrapperNode.getBoundingClientRect();
-      const portalNodeRect = nextProps.portalNode && nextProps.portalNode.getBoundingClientRect();
-      this.setState({
-        portalWidth: portalNodeRect ? portalNodeRect.width : window.outerWidth,
-        dropdownTopOffset: ((portalNodeRect && !nextProps.fixed) ? top - portalNodeRect.top : top) + (nextProps.portalNode ? (nextProps.fixed ? 0 : nextProps.portalNode.scrollTop) : 0),
-        dropdownLeftOffset: (portalNodeRect ? left - portalNodeRect.left : left) + nextProps.xOffset,
-        dropdownRightOffset: portalNodeRect ? portalNodeRect.right - right : right,
-        dropdownToggleComponentHeight: height,
-        dropdownToggleComponentWidth: width,
-      });
+      this._setPortalPositionState(nextProps);
     }
   }
 
@@ -166,6 +162,20 @@ export default class DropdownMenu extends PureComponent {
   _registerPortalRef = (ref) => this._portalRef = ref
   _setDropdownWidth = (width) => this.setState({dropdownWidth: width})
 
+  _setPortalPositionState = ({portalNode, fixed, xOffset}) => {
+    const wrapperNode = this._wrapperRef;
+    const {top, left, right, height, width} = wrapperNode.getBoundingClientRect();
+    const portalNodeRect = portalNode && portalNode.getBoundingClientRect();
+    this.setState({
+      portalWidth: portalNodeRect ? portalNodeRect.width : window.outerWidth,
+      dropdownTopOffset: ((portalNodeRect && !fixed) ? top - portalNodeRect.top : top) + (portalNode ? (fixed ? 0 : portalNode.scrollTop) : 0),
+      dropdownLeftOffset: (portalNodeRect ? left - portalNodeRect.left : left) + xOffset,
+      dropdownRightOffset: portalNodeRect ? portalNodeRect.right - right : right,
+      dropdownToggleComponentHeight: height,
+      dropdownToggleComponentWidth: width,
+    });
+
+  }
   render() {
     const { menuAlign, align, inverse, size, className } = this.props;
     const alignment = menuAlign || align;
